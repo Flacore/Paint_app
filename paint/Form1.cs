@@ -16,10 +16,10 @@ namespace paint
         /*
         //1. Pencil
         //2. Sqare
-        //TODO 3. Text
+        //3. Text
         //4. Line
         //5. Elipse
-        //TODO 6. Bezier Curve
+        //6. Bezier Curve
         //7. Bitmap
         //8. Color picker
          */
@@ -67,11 +67,19 @@ namespace paint
         private void reject_button_Click(object sender, EventArgs e)
         {
             //TODO reject 
+            if (active == 3)
+                items.RemoveAt(items.Count - 1);
+            hideHelpButtons();
+            panelcenter.Invalidate();
         }
 
         private void accept_button_Click(object sender, EventArgs e)
         {
             //TODO accept
+            if (active == 3)
+                items[items.Count - 1].cancelActive();
+            hideHelpButtons();
+            panelcenter.Invalidate();
         }
 
         private void erase_button_Click(object sender, EventArgs e)
@@ -146,6 +154,8 @@ namespace paint
                 items.RemoveAt(items.Count - 1);
                 mouse_down = false;
             }
+            showHelpButtons();
+            //TODO bezier
         }
 
         private void circle_button_Click(object sender, EventArgs e)
@@ -173,14 +183,19 @@ namespace paint
 
         private void back_button_Click(object sender, EventArgs e)
         {
-            if(items.Count > 0)
+            if (items.Count > 0)
+            {
+                if(items[items.Count -1].getType() == 3)
+                    hideHelpButtons();
                 items.RemoveAt(items.Count - 1);
+            }
             panelcenter.Invalidate();
             mouse_down = false;
         }
 
         private void ereseall_button_Click(object sender, EventArgs e)
         {
+            hideHelpButtons();
             items.Clear();
             panelcenter.Invalidate();
             mouse_down = false;
@@ -325,12 +340,14 @@ namespace paint
 
         private void font_resizer_ValueChanged(object sender, EventArgs e)
         {
-            font_size = (int)font_resizer.Value;
+            font_size = (int)font_resizer.Value;   
+            //TODO resizing
         }
 
         private void linewidth_resizer_ValueChanged(object sender, EventArgs e)
         {
             line_width = (int)linewidth_resizer.Value;
+            //TODO resizing
         }
 
         private void panelcenter_MouseDown(object sender, MouseEventArgs e)
@@ -349,6 +366,15 @@ namespace paint
                 items[items.Count - 1].addStart(new Point(e.Location.X, e.Location.Y));
                 items[items.Count - 1].setColor(chosen_color);
                 items[items.Count - 1].setSize(line_width);
+            }
+            if (active == 3) {
+                if (items.Count > 0 && items[items.Count - 1].getType() == 3)
+                {
+                    items[items.Count - 1].selectPoint(new Point(e.Location.X, e.Location.Y));
+                }
+                else {
+                    mouse_down = false;
+                }
             }
             if (active == 4)
             {
@@ -369,28 +395,34 @@ namespace paint
 
         private void panelcenter_MouseUp(object sender, MouseEventArgs e)
         {
+            if (mouse_down)
+            {
+                if (active == 1)
+                {
+                    items[items.Count - 1].addEnd(new Point(e.Location.X, e.Location.Y));
+                }
+                if (active == 2)
+                {
+                    items[items.Count - 1].addEnd(new Point(e.Location.X, e.Location.Y));
+                }
+                if (active == 3)
+                {
+                    items[items.Count - 1].cancelSelection();
+                }
+                if (active == 4)
+                {
+                    items[items.Count - 1].addEnd(new Point(e.Location.X, e.Location.Y));
+                }
+                if (active == 5)
+                {
+                    items[items.Count - 1].addEnd(new Point(e.Location.X, e.Location.Y));
+                }
+                if (active == 8)
+                {
+                    getColor(new Point(e.Location.X, e.Location.Y));
+                }
+            }
             mouse_down = false;
-            if (active == 1)
-            {
-                items[items.Count - 1].addEnd(new Point(e.Location.X, e.Location.Y));
-            }
-            if (active == 2)
-            {
-                items[items.Count - 1].addEnd(new Point(e.Location.X, e.Location.Y));
-            }
-            if (active == 4)
-            {
-                items[items.Count - 1].addEnd(new Point(e.Location.X, e.Location.Y));
-            }
-            if (active == 5)
-            {
-                items[items.Count - 1].addEnd(new Point(e.Location.X, e.Location.Y));
-            }
-            if (active == 8)
-            {
-                getColor(new Point(e.Location.X, e.Location.Y));
-            }
-
             panelcenter.Invalidate();
         }
 
@@ -406,6 +438,9 @@ namespace paint
                 {
                     items[items.Count - 1].addPoint(new Point(e.Location.X, e.Location.Y));
                 }
+                if (active == 3) {
+                    items[items.Count - 1].changePoint(new Point(e.Location.X, e.Location.Y));
+                }
                 if (active == 4)
                 {
                     items[items.Count - 1].addPoint(new Point(e.Location.X, e.Location.Y));
@@ -420,6 +455,15 @@ namespace paint
 
         private void panelcenter_MouseClick(object sender, MouseEventArgs e)
         {
+            if (active == 3 && !accept_button.Visible) {
+                showHelpButtons();
+                items.Add(new item(3));
+                items[items.Count - 1].addStart(new Point(e.Location.X, e.Location.Y));
+                items[items.Count - 1].setColor(chosen_color);
+                items[items.Count - 1].setSize(font_size);
+                items[items.Count - 1].setText("text");
+                panelcenter.Invalidate();
+            }
             if (active == 8) {
                 getColor(new Point(e.Location.X,e.Location.Y));
             }
@@ -453,6 +497,17 @@ namespace paint
             bezier__button.BackColor = Color.Gainsboro;
             circle_button.BackColor = Color.Gainsboro;
             sqare_button.BackColor = Color.Gainsboro;
+        }
+
+        private void hideHelpButtons() {
+            reject_button.Visible = false;
+            accept_button.Visible = false;
+        }
+
+        private void showHelpButtons()
+        {
+            reject_button.Visible = true;
+            accept_button.Visible = true;
         }
     }
 }

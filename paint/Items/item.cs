@@ -58,6 +58,37 @@ namespace paint.Items
             }
         }
 
+        public void cancelActive()
+        {
+            if (type == 3) {
+                iText.cancelActive();
+            }
+        }
+
+        public void cancelSelection()
+        {
+            if (type == 3)
+            {
+                iText.cancelSelection();
+            }
+        }
+
+        public void selectPoint(Point pt_)
+        {
+            if (type == 3)
+            {
+                iText.selectPoint(pt_);
+            }
+        }
+
+        public void changePoint(Point pt_)
+        {
+            if (type == 3)
+            {
+                iText.changePoint(pt_);
+            }
+        }
+
         public int getType() {
             return type;
         }
