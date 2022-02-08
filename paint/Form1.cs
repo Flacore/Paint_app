@@ -56,8 +56,7 @@ namespace paint
             line_width = 5;
             linewidth_resizer.Value = line_width;
 
-            reject_button.Visible = false;
-            accept_button.Visible = false;
+            hideHelpButtons();
 
             clearAllButtons();
             draw_button.BackColor = Color.Silver;
@@ -340,14 +339,18 @@ namespace paint
 
         private void font_resizer_ValueChanged(object sender, EventArgs e)
         {
-            font_size = (int)font_resizer.Value;   
-            //TODO resizing
+            font_size = (int)font_resizer.Value;
+            if (accept_button.Visible)
+            {
+                if(active == 3)
+                    items[items.Count - 1].setSize(font_size);
+                panelcenter.Invalidate();
+            }
         }
 
         private void linewidth_resizer_ValueChanged(object sender, EventArgs e)
         {
             line_width = (int)linewidth_resizer.Value;
-            //TODO resizing
         }
 
         private void panelcenter_MouseDown(object sender, MouseEventArgs e)
@@ -502,12 +505,28 @@ namespace paint
         private void hideHelpButtons() {
             reject_button.Visible = false;
             accept_button.Visible = false;
+            textText.Visible = false;
         }
 
         private void showHelpButtons()
         {
             reject_button.Visible = true;
             accept_button.Visible = true;
+            textText.Visible = true;
+        }
+
+        private void panelcenter_MouseHover(object sender, EventArgs e)
+        {
+        }
+
+        private void textText_TextChanged(object sender, EventArgs e)
+        {
+            if (accept_button.Visible)
+            {
+                if (active == 3)
+                    items[items.Count - 1].setText(textText.Text);
+                panelcenter.Invalidate();
+            }
         }
     }
 }

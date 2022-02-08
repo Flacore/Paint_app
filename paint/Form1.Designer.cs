@@ -77,6 +77,7 @@ namespace paint
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.textText = new System.Windows.Forms.TextBox();
             this.panelTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.blackcolore)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox19)).BeginInit();
@@ -378,6 +379,7 @@ namespace paint
             // 
             this.panelBottom.BackColor = System.Drawing.Color.Gainsboro;
             this.panelBottom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelBottom.Controls.Add(this.textText);
             this.panelBottom.Controls.Add(this.reject_button);
             this.panelBottom.Controls.Add(this.accept_button);
             this.panelBottom.Location = new System.Drawing.Point(12, 795);
@@ -417,6 +419,7 @@ namespace paint
             this.panelcenter.Paint += new System.Windows.Forms.PaintEventHandler(this.panelcenter_Paint);
             this.panelcenter.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panelcenter_MouseClick);
             this.panelcenter.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panelcenter_MouseDown);
+            this.panelcenter.MouseHover += new System.EventHandler(this.panelcenter_MouseHover);
             this.panelcenter.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelcenter_MouseMove);
             this.panelcenter.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panelcenter_MouseUp);
             // 
@@ -715,6 +718,15 @@ namespace paint
             this.pictureBox1.TabIndex = 5;
             this.pictureBox1.TabStop = false;
             // 
+            // textText
+            // 
+            this.textText.Location = new System.Drawing.Point(413, 2);
+            this.textText.Name = "textText";
+            this.textText.Size = new System.Drawing.Size(671, 23);
+            this.textText.TabIndex = 2;
+            this.textText.Text = "text";
+            this.textText.TextChanged += new System.EventHandler(this.textText_TextChanged);
+            // 
             // AppSpace
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -750,6 +762,7 @@ namespace paint
             ((System.ComponentModel.ISupportInitialize)(this.colorpicked)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.color_button)).EndInit();
             this.panelBottom.ResumeLayout(false);
+            this.panelBottom.PerformLayout();
             this.panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.copycolor_button)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.text__button)).EndInit();
@@ -824,6 +837,7 @@ namespace paint
         private System.Windows.Forms.NumericUpDown font_resizer;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox textText;
     }
 }
 
