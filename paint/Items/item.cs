@@ -1,4 +1,5 @@
 ﻿using Antialiasing_app.Curves;
+using CustomAntialiasing.Drawing2DMath;
 using paint.Items.Bitmapp;
 using paint.Items.Circle;
 using paint.Items.Line;
@@ -58,10 +59,26 @@ namespace paint.Items
             }
         }
 
+        public bool isActive()
+        {
+            if (type == 3)
+            {
+                return iText.isActive();
+            }
+            if (type == 6)
+            {
+                return bezierCurve.isActive();
+            }
+            return false;
+        }
         public void cancelActive()
         {
             if (type == 3) {
                 iText.cancelActive();
+            }
+            if (type == 6)
+            {
+                bezierCurve.SetAsFinished();
             }
         }
 
@@ -71,14 +88,24 @@ namespace paint.Items
             {
                 iText.cancelSelection();
             }
+            if (type == 6)
+            {
+                bezierCurve.clearSelection();
+            }
         }
 
-        public void selectPoint(Point pt_)
+        public bool selectPoint(Point pt_)
         {
             if (type == 3)
             {
                 iText.selectPoint(pt_);
+                return true;
             }
+            if (type == 6)
+            {
+                return bezierCurve.SelectPoint(pt_);
+            }
+            return true;
         }
 
         public void changePoint(Point pt_)
@@ -86,6 +113,9 @@ namespace paint.Items
             if (type == 3)
             {
                 iText.changePoint(pt_);
+            }
+            if (type == 6) {
+                bezierCurve.ChangeVertex(pt_);
             }
         }
 

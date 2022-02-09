@@ -90,6 +90,11 @@ namespace Antialiasing_app.Curves
 			size = size_;
 		}
 
+
+		public bool isActive()
+		{
+			return !finished;
+		}
 		public void addStart(Point pt) { 
 			startVertex = Matrix.GetVectorPointXY(pt.X, pt.Y);
 		}
@@ -293,16 +298,21 @@ namespace Antialiasing_app.Curves
 		/// </summary>
 		/// <param name="selected"></param>
 		/// <param name="nev"></param>
-		public bool ChangeVertex(Matrix selected, Matrix nev) {
+		public bool ChangeVertex(Point pt) {
 			bool for_return = false;
+
+			Matrix nev = Matrix.GetVectorPointXY(pt.X, pt.Y);
+			Matrix selected = selectedPoints[0];
 
 			if (startVertex.ToString() == selected.ToString()) {
 				startVertex = nev;
+				selectedPoints[0] = nev;
 				for_return = true;
 			}
 
 			if (endVertex.ToString() == selected.ToString()) {
 				endVertex = nev;
+				selectedPoints[0] = nev;
 				for_return = true;
 			}
 
@@ -465,6 +475,13 @@ namespace Antialiasing_app.Curves
 			if (bcp == null)
 				return;
 
+			// draw linear interpolation between points
+			for (int i = 0; i < bcp.Count - 1; i++)
+			{
+				var p1 = Math2DCalculations.WorldCoordToWindowCoord(new PointF((float)bcp[i][0, 0], (float)bcp[i][0, 1]));
+				var p2 = Math2DCalculations.WorldCoordToWindowCoord(new PointF((float)bcp[i + 1][0, 0], (float)bcp[i + 1][0, 1]));
+				g.DrawLine(new Pen(color, size), p1, p2);
+			}
 			if (!finished)
 			{
 				// draw lines between control points
@@ -488,28 +505,7 @@ namespace Antialiasing_app.Curves
 						else
 							g.FillRectangle(Brushes.DarkOrange, rect);
 						g.DrawRectangle(Pens.Black, rect);
-						g.DrawString("C" + pointIndex++.ToString(), f, Brushes.Black, new Point(rect.X + 10, rect.Y + 10));
 					}
-				}
-			}
-
-			// draw linear interpolation between points
-			for (int i = 0; i < bcp.Count - 1; i++)
-			{
-				var p1 = Math2DCalculations.WorldCoordToWindowCoord(new PointF((float)bcp[i][0, 0], (float)bcp[i][0, 1]));
-				var p2 = Math2DCalculations.WorldCoordToWindowCoord(new PointF((float)bcp[i + 1][0, 0], (float)bcp[i + 1][0, 1]));
-				g.DrawLine(new Pen(color,size), p1, p2);
-			}
-
-			if (!finished)
-			{
-				// draw bezier curve points
-				foreach (var p in bcp)
-				{
-					PointF tp = new PointF((float)p[0, 0], (float)p[0, 1]);
-					var point = Math2DCalculations.WorldCoordToWindowCoord(tp);
-
-					g.FillRectangle(Brushes.Red, new Rectangle(point.X, point.Y, 2, 2));
 				}
 			}
 		}

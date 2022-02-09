@@ -47,6 +47,10 @@ namespace paint.Items.Text
             selected = false;
         }
 
+        public bool isActive() {
+            return active;
+        }
+
         public void cancelActive() {
             active = false;
         }

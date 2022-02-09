@@ -24,7 +24,11 @@ namespace paint
         //8. Color picker
          */
 
+        const int bc_x = 295;
+        const int bc_y = 225;
+
         private bool mouse_down;
+        private bool placed;
 
         private int active;
         private Color chosen_color;
@@ -43,6 +47,7 @@ namespace paint
         private void InitializedApplication() {
             active = 1;
 
+            placed = false;
             mouse_down = false;
 
             items = new List<item>();
@@ -65,24 +70,35 @@ namespace paint
 
         private void reject_button_Click(object sender, EventArgs e)
         {
-            //TODO reject 
-            if (active == 3)
+            int type = (items[items.Count - 1].getType());
+            bool active = items[items.Count - 1].isActive();
+            if (items.Count > 0 && ((items[items.Count - 1].getType() == 3) || (items[items.Count - 1].getType() == 6)) && items[items.Count - 1].isActive())
                 items.RemoveAt(items.Count - 1);
             hideHelpButtons();
             panelcenter.Invalidate();
+            placed = false;
         }
 
         private void accept_button_Click(object sender, EventArgs e)
         {
-            //TODO accept
-            if (active == 3)
+            if (items.Count > 0 && ((items[items.Count - 1].getType() == 3) || (items[items.Count - 1].getType() == 6)))
                 items[items.Count - 1].cancelActive();
             hideHelpButtons();
             panelcenter.Invalidate();
+            placed = false;
+        }
+
+        private void testIntegrity() {
+            if (items.Count > 0 && ((items[items.Count - 1].getType() == 3) || (items[items.Count - 1].getType() == 6)) && items[items.Count - 1].isActive())
+                items.RemoveAt(items.Count - 1);
+            hideHelpButtons();
+            panelcenter.Invalidate();
+            placed = false;
         }
 
         private void erase_button_Click(object sender, EventArgs e)
         {
+            testIntegrity();
             active = 1;
             chosen_color = Color.White;
             colorpicked.BackColor = chosen_color;
@@ -97,6 +113,7 @@ namespace paint
 
         private void draw_button_Click(object sender, EventArgs e)
         {
+            testIntegrity();
             active = 1;
             clearAllButtons();
             draw_button.BackColor = Color.Silver;
@@ -109,6 +126,7 @@ namespace paint
 
         private void text__button_Click(object sender, EventArgs e)
         {
+            testIntegrity();
             active = 3;
             clearAllButtons();
             text__button.BackColor = Color.Silver;
@@ -121,6 +139,7 @@ namespace paint
 
         private void copycolor_button_Click(object sender, EventArgs e)
         {
+            testIntegrity();
             active = 8;
             clearAllButtons();
             copycolor_button.BackColor = Color.Silver;
@@ -133,6 +152,7 @@ namespace paint
 
         private void line__button_Click(object sender, EventArgs e)
         {
+            testIntegrity();
             active = 4;
             clearAllButtons();
             line__button.BackColor = Color.Silver;
@@ -145,6 +165,7 @@ namespace paint
 
         private void bezier__button_Click(object sender, EventArgs e)
         {
+            testIntegrity();
             active = 6;
             clearAllButtons();
             bezier__button.BackColor = Color.Silver;
@@ -153,12 +174,11 @@ namespace paint
                 items.RemoveAt(items.Count - 1);
                 mouse_down = false;
             }
-            showHelpButtons();
-            //TODO bezier
         }
 
         private void circle_button_Click(object sender, EventArgs e)
         {
+            testIntegrity();
             active = 5;
             clearAllButtons();
             circle_button.BackColor = Color.Silver;
@@ -171,6 +191,7 @@ namespace paint
 
         private void sqare_button_Click(object sender, EventArgs e)
         {
+            testIntegrity();
             active = 2;
             clearAllButtons();
             sqare_button.BackColor = Color.Silver;
@@ -182,6 +203,7 @@ namespace paint
 
         private void back_button_Click(object sender, EventArgs e)
         {
+            testIntegrity();
             if (items.Count > 0)
             {
                 if(items[items.Count -1].getType() == 3)
@@ -194,6 +216,7 @@ namespace paint
 
         private void ereseall_button_Click(object sender, EventArgs e)
         {
+            testIntegrity();
             hideHelpButtons();
             items.Clear();
             panelcenter.Invalidate();
@@ -202,6 +225,8 @@ namespace paint
 
         private void save_button_Click(object sender, EventArgs e)
         {
+            testIntegrity();
+
             int width = panelcenter.Size.Width;
             int height = panelcenter.Size.Height;
 
@@ -229,11 +254,14 @@ namespace paint
                 items.Clear();
                 items.Add(new item(7));
                 items[0].setBitmap(new Bitmap(openFileDialog.FileName));
+                panelcenter.Invalidate();
             }
         }
 
         private void export_button_Click(object sender, EventArgs e)
         {
+            testIntegrity();
+
             int width = panelcenter.Size.Width;
             int height = panelcenter.Size.Height;
 
@@ -253,78 +281,207 @@ namespace paint
         {
             colorpicked.BackColor = Color.White;
             chosen_color = Color.White;
+
+
+            if (accept_button.Visible)
+            {
+                if (active == 6 || active == 3)
+                    items[items.Count - 1].setColor(chosen_color);
+                panelcenter.Invalidate();
+            }
         }
 
         private void lightgreycolore_Click(object sender, EventArgs e)
         {
             colorpicked.BackColor = Color.LightGray;
             chosen_color = Color.LightGray;
+
+
+            if (accept_button.Visible)
+            {
+                if (active == 6 || active == 3)
+                    items[items.Count - 1].setColor(chosen_color);
+                panelcenter.Invalidate();
+            }
         }
 
         private void greycolore_Click(object sender, EventArgs e)
         {
             colorpicked.BackColor = Color.DarkGray;
             chosen_color =Color.DarkGray;
+
+
+            if (accept_button.Visible)
+            {
+                if (active == 6 || active == 3)
+                    items[items.Count - 1].setColor(chosen_color);
+                panelcenter.Invalidate();
+            }
         }
 
         private void darkgreycolore_Click(object sender, EventArgs e)
         {
             colorpicked.BackColor = Color.Gray;
             chosen_color = Color.Gray;
+
+
+            if (accept_button.Visible)
+            {
+                if (active == 6 || active == 3)
+                    items[items.Count - 1].setColor(chosen_color);
+                panelcenter.Invalidate();
+            }
         }
 
         private void blackcolore_Click(object sender, EventArgs e)
         {
             colorpicked.BackColor = Color.Black;
             chosen_color = Color.Black;
+
+
+            if (accept_button.Visible)
+            {
+                if (active == 6 || active == 3)
+                    items[items.Count - 1].setColor(chosen_color);
+                panelcenter.Invalidate();
+            }
         }
 
         private void pinkcolore_Click(object sender, EventArgs e)
         {
             colorpicked.BackColor = Color.Pink;
             chosen_color = Color.Pink;
+
+            if (accept_button.Visible)
+            {
+                if (active == 6 || active == 3)
+                    items[items.Count - 1].setColor(chosen_color);
+                panelcenter.Invalidate();
+            }
+
         }
 
         private void redcolore_Click(object sender, EventArgs e)
         {
             colorpicked.BackColor = Color.Red;
             chosen_color = Color.Red;
+
+
+            if (accept_button.Visible)
+            {
+                if (active == 6 || active == 3)
+                    items[items.Count - 1].setColor(chosen_color);
+                panelcenter.Invalidate();
+            }
         }
 
         private void purplecolore_Click(object sender, EventArgs e)
         {
             colorpicked.BackColor = Color.Purple;
             chosen_color = Color.Purple;
+
+
+            if (accept_button.Visible)
+            {
+                if (active == 6 || active == 3)
+                    items[items.Count - 1].setColor(chosen_color);
+                panelcenter.Invalidate();
+            }
         }
 
         private void orangecolore_Click(object sender, EventArgs e)
         {
             colorpicked.BackColor = Color.Orange;
             chosen_color = Color.Orange;
+
+
+            if (accept_button.Visible)
+            {
+                if (active == 6 || active == 3)
+                    items[items.Count - 1].setColor(chosen_color);
+                panelcenter.Invalidate();
+            }
         }
 
         private void yellowcolore_Click(object sender, EventArgs e)
         {
             colorpicked.BackColor = Color.Yellow;
             chosen_color = Color.Yellow;
+
+
+            if (accept_button.Visible)
+            {
+                if (active == 6 || active == 3)
+                    items[items.Count - 1].setColor(chosen_color);
+                panelcenter.Invalidate();
+            }
         }
 
         private void greencolore_Click(object sender, EventArgs e)
         {
             colorpicked.BackColor = Color.Green;
             chosen_color = Color.Green;
+
+
+            if (accept_button.Visible)
+            {
+                if (active == 6 || active == 3)
+                    items[items.Count - 1].setColor(chosen_color);
+                panelcenter.Invalidate();
+            }
         }
 
         private void bluecolore_Click(object sender, EventArgs e)
         {
             colorpicked.BackColor = Color.Blue;
             chosen_color = Color.Blue;
+
+
+            if (accept_button.Visible)
+            {
+                if (active == 6 || active == 3)
+                    items[items.Count - 1].setColor(chosen_color);
+                panelcenter.Invalidate();
+            }
         }
 
         private void browncolore_Click(object sender, EventArgs e)
         {
             colorpicked.BackColor = Color.Brown;
             chosen_color = Color.Brown;
+
+            if (accept_button.Visible)
+            {
+                if (active == 6 || active == 3)
+                    items[items.Count - 1].setColor(chosen_color);
+                panelcenter.Invalidate();
+            }
+        }
+
+        private void aquacolor_Click(object sender, EventArgs e)
+        {
+            colorpicked.BackColor = Color.Aqua;
+            chosen_color = Color.Aqua;
+
+            if (accept_button.Visible)
+            {
+                if (active == 6 || active == 3)
+                    items[items.Count - 1].setColor(chosen_color);
+                panelcenter.Invalidate();
+            }
+        }
+
+        private void darkcyancolor_Click(object sender, EventArgs e)
+        {
+            colorpicked.BackColor = Color.DarkCyan;
+            chosen_color = Color.DarkCyan;
+
+            if (accept_button.Visible)
+            {
+                if (active == 6 || active == 3)
+                    items[items.Count - 1].setColor(chosen_color);
+                panelcenter.Invalidate();
+            }
         }
 
         private void color_button_Click(object sender, EventArgs e)
@@ -335,6 +492,13 @@ namespace paint
                 chosen_color = colorPickingDialog.Color;
 
             colorpicked.BackColor = chosen_color;
+
+            if (accept_button.Visible)
+            {
+                if (active == 6 || active == 3)
+                    items[items.Count - 1].setColor(chosen_color);
+                panelcenter.Invalidate();
+            }
         }
 
         private void font_resizer_ValueChanged(object sender, EventArgs e)
@@ -351,17 +515,23 @@ namespace paint
         private void linewidth_resizer_ValueChanged(object sender, EventArgs e)
         {
             line_width = (int)linewidth_resizer.Value;
+            if (accept_button.Visible)
+            {
+                if (active == 6)
+                    items[items.Count - 1].setSize(line_width);
+                panelcenter.Invalidate();
+            }
         }
 
         private void panelcenter_MouseDown(object sender, MouseEventArgs e)
         {
-            mouse_down = true;
             if (active == 1)
             {
                 items.Add(new item(1));
                 items[items.Count - 1].addStart(new Point(e.Location.X, e.Location.Y));
                 items[items.Count - 1].setColor(chosen_color);
                 items[items.Count - 1].setSize(line_width);
+                mouse_down = true;
             }
             if (active == 2)
             {
@@ -369,11 +539,13 @@ namespace paint
                 items[items.Count - 1].addStart(new Point(e.Location.X, e.Location.Y));
                 items[items.Count - 1].setColor(chosen_color);
                 items[items.Count - 1].setSize(line_width);
+                mouse_down = true;
             }
             if (active == 3) {
                 if (items.Count > 0 && items[items.Count - 1].getType() == 3)
                 {
                     items[items.Count - 1].selectPoint(new Point(e.Location.X, e.Location.Y));
+                    mouse_down = true;
                 }
                 else {
                     mouse_down = false;
@@ -385,6 +557,7 @@ namespace paint
                 items[items.Count - 1].addStart(new Point(e.Location.X, e.Location.Y));
                 items[items.Count - 1].setColor(chosen_color);
                 items[items.Count - 1].setSize(line_width);
+                mouse_down = true;
             }
             if (active == 5)
             {
@@ -392,6 +565,15 @@ namespace paint
                 items[items.Count - 1].addStart(new Point(e.Location.X, e.Location.Y));
                 items[items.Count - 1].setColor(chosen_color);
                 items[items.Count - 1].setSize(line_width);
+                mouse_down = true;
+            }
+            if (active == 6 && placed) {
+                items[items.Count - 1].cancelSelection();
+                if (items[items.Count - 1].selectPoint(new Point(e.Location.X, e.Location.Y))) {
+                    mouse_down = true;
+                }else {
+                    mouse_down = false;
+                }
             }
             panelcenter.Invalidate();
         }
@@ -419,6 +601,9 @@ namespace paint
                 if (active == 5)
                 {
                     items[items.Count - 1].addEnd(new Point(e.Location.X, e.Location.Y));
+                }
+                if (active == 6) {
+                    items[items.Count - 1].cancelSelection();
                 }
                 if (active == 8)
                 {
@@ -452,6 +637,10 @@ namespace paint
                 {
                     items[items.Count - 1].addPoint(new Point(e.Location.X, e.Location.Y));
                 }
+                if (active == 6) {
+                    Point ptnow = e.Location;
+                    items[items.Count - 1].changePoint(new Point(ptnow.X - bc_x, bc_y - ptnow.Y));
+                }
                 panelcenter.Invalidate();
             }
         }
@@ -467,8 +656,28 @@ namespace paint
                 items[items.Count - 1].setText("text");
                 panelcenter.Invalidate();
             }
+            if (active == 6 && !accept_button.Visible) {
+                showHelpButtons();
+                items.Add(new item(6));
+                items[items.Count - 1].addStart(new Point(e.Location.X - bc_x, bc_y - e.Location.Y ));
+                items[items.Count - 1].addPoint(new Point(e.Location.X - bc_x + 50, bc_y - e.Location.Y));
+                items[items.Count - 1].addPoint(new Point(e.Location.X - bc_x + 100, bc_y - e.Location.Y));
+                items[items.Count - 1].addEnd(new Point(e.Location.X - bc_x + 150, bc_y - e.Location.Y));
+                items[items.Count - 1].setColor(chosen_color);
+                items[items.Count - 1].setSize(line_width);
+                items[items.Count - 1].setText("text");
+                panelcenter.Invalidate();
+                placed = true;
+            }
             if (active == 8) {
                 getColor(new Point(e.Location.X,e.Location.Y));
+
+                if (accept_button.Visible)
+                {
+                    if (active == 6 || active == 3)
+                        items[items.Count - 1].setColor(chosen_color);
+                    panelcenter.Invalidate();
+                }
             }
         }
 
@@ -512,7 +721,8 @@ namespace paint
         {
             reject_button.Visible = true;
             accept_button.Visible = true;
-            textText.Visible = true;
+            if(active == 3)
+                textText.Visible = true;
         }
 
         private void panelcenter_MouseHover(object sender, EventArgs e)

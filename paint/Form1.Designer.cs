@@ -32,8 +32,8 @@ namespace paint
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AppSpace));
             this.panelTop = new System.Windows.Forms.Panel();
             this.blackcolore = new System.Windows.Forms.PictureBox();
-            this.pictureBox19 = new System.Windows.Forms.PictureBox();
-            this.pictureBox20 = new System.Windows.Forms.PictureBox();
+            this.darkcyancolor = new System.Windows.Forms.PictureBox();
+            this.aquacolor = new System.Windows.Forms.PictureBox();
             this.darkgreycolore = new System.Windows.Forms.PictureBox();
             this.browncolore = new System.Windows.Forms.PictureBox();
             this.bluecolore = new System.Windows.Forms.PictureBox();
@@ -50,6 +50,7 @@ namespace paint
             this.label2 = new System.Windows.Forms.Label();
             this.color_button = new System.Windows.Forms.PictureBox();
             this.panelBottom = new System.Windows.Forms.Panel();
+            this.textText = new System.Windows.Forms.TextBox();
             this.reject_button = new System.Windows.Forms.Button();
             this.accept_button = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
@@ -77,11 +78,10 @@ namespace paint
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.textText = new System.Windows.Forms.TextBox();
             this.panelTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.blackcolore)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox19)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox20)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.darkcyancolor)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.aquacolor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.darkgreycolore)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.browncolore)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bluecolore)).BeginInit();
@@ -124,8 +124,8 @@ namespace paint
             this.panelTop.BackColor = System.Drawing.Color.Gainsboro;
             this.panelTop.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelTop.Controls.Add(this.blackcolore);
-            this.panelTop.Controls.Add(this.pictureBox19);
-            this.panelTop.Controls.Add(this.pictureBox20);
+            this.panelTop.Controls.Add(this.darkcyancolor);
+            this.panelTop.Controls.Add(this.aquacolor);
             this.panelTop.Controls.Add(this.darkgreycolore);
             this.panelTop.Controls.Add(this.browncolore);
             this.panelTop.Controls.Add(this.bluecolore);
@@ -159,29 +159,31 @@ namespace paint
             this.blackcolore.TabStop = false;
             this.blackcolore.Click += new System.EventHandler(this.blackcolore_Click);
             // 
-            // pictureBox19
+            // darkcyancolor
             // 
-            this.pictureBox19.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.pictureBox19.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox19.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox19.InitialImage = null;
-            this.pictureBox19.Location = new System.Drawing.Point(193, 51);
-            this.pictureBox19.Name = "pictureBox19";
-            this.pictureBox19.Size = new System.Drawing.Size(15, 17);
-            this.pictureBox19.TabIndex = 21;
-            this.pictureBox19.TabStop = false;
+            this.darkcyancolor.BackColor = System.Drawing.Color.DarkCyan;
+            this.darkcyancolor.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.darkcyancolor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.darkcyancolor.InitialImage = null;
+            this.darkcyancolor.Location = new System.Drawing.Point(193, 51);
+            this.darkcyancolor.Name = "darkcyancolor";
+            this.darkcyancolor.Size = new System.Drawing.Size(15, 17);
+            this.darkcyancolor.TabIndex = 21;
+            this.darkcyancolor.TabStop = false;
+            this.darkcyancolor.Click += new System.EventHandler(this.darkcyancolor_Click);
             // 
-            // pictureBox20
+            // aquacolor
             // 
-            this.pictureBox20.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.pictureBox20.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox20.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox20.InitialImage = null;
-            this.pictureBox20.Location = new System.Drawing.Point(193, 28);
-            this.pictureBox20.Name = "pictureBox20";
-            this.pictureBox20.Size = new System.Drawing.Size(15, 17);
-            this.pictureBox20.TabIndex = 20;
-            this.pictureBox20.TabStop = false;
+            this.aquacolor.BackColor = System.Drawing.Color.Aqua;
+            this.aquacolor.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.aquacolor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.aquacolor.InitialImage = null;
+            this.aquacolor.Location = new System.Drawing.Point(193, 28);
+            this.aquacolor.Name = "aquacolor";
+            this.aquacolor.Size = new System.Drawing.Size(15, 17);
+            this.aquacolor.TabIndex = 20;
+            this.aquacolor.TabStop = false;
+            this.aquacolor.Click += new System.EventHandler(this.aquacolor_Click);
             // 
             // darkgreycolore
             // 
@@ -386,6 +388,15 @@ namespace paint
             this.panelBottom.Name = "panelBottom";
             this.panelBottom.Size = new System.Drawing.Size(1491, 29);
             this.panelBottom.TabIndex = 1;
+            // 
+            // textText
+            // 
+            this.textText.Location = new System.Drawing.Point(413, 2);
+            this.textText.Name = "textText";
+            this.textText.Size = new System.Drawing.Size(671, 23);
+            this.textText.TabIndex = 2;
+            this.textText.Text = "text";
+            this.textText.TextChanged += new System.EventHandler(this.textText_TextChanged);
             // 
             // reject_button
             // 
@@ -718,15 +729,6 @@ namespace paint
             this.pictureBox1.TabIndex = 5;
             this.pictureBox1.TabStop = false;
             // 
-            // textText
-            // 
-            this.textText.Location = new System.Drawing.Point(413, 2);
-            this.textText.Name = "textText";
-            this.textText.Size = new System.Drawing.Size(671, 23);
-            this.textText.TabIndex = 2;
-            this.textText.Text = "text";
-            this.textText.TextChanged += new System.EventHandler(this.textText_TextChanged);
-            // 
             // AppSpace
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -745,8 +747,8 @@ namespace paint
             this.panelTop.ResumeLayout(false);
             this.panelTop.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.blackcolore)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox19)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox20)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.darkcyancolor)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.aquacolor)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.darkgreycolore)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.browncolore)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bluecolore)).EndInit();
@@ -814,8 +816,8 @@ namespace paint
         private System.Windows.Forms.Button reject_button;
         private System.Windows.Forms.Button accept_button;
         private System.Windows.Forms.PictureBox blackcolore;
-        private System.Windows.Forms.PictureBox pictureBox19;
-        private System.Windows.Forms.PictureBox pictureBox20;
+        private System.Windows.Forms.PictureBox darkcyancolor;
+        private System.Windows.Forms.PictureBox aquacolor;
         private System.Windows.Forms.PictureBox darkgreycolore;
         private System.Windows.Forms.PictureBox browncolore;
         private System.Windows.Forms.PictureBox bluecolore;
